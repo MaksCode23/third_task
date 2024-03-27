@@ -8,7 +8,9 @@ export default {
   components: {Products},
   data(){
     return{
-
+      isDarkTheme: false,
+      currentTheme: "dark",
+      selectedComponent: 1,
       userObject:{
         name: 'John',
         age: 20,
@@ -54,14 +56,15 @@ export default {
             console.log(error)
           })
     },
-    inputObject(event){
+    inputObject(field,value){
       this.textRule = [];
-      event.target.name === 'name' ? this.inputName = event.target.value : this.inputAge = event.target.value
+      field === 'name' ? this.inputName = value : this.inputAge = value
     },
     changeObject(){
       this.textRule = [];
       if(this.inputAge && this.inputName){
-        this.userObject = { name: this.inputName, age: this.inputAge };
+        this.userObject.name =  this.inputName
+        this.userObject.age = this.inputAge
       } else {
         !this.inputAge ? this.textRule.push('Введіть вік') : null
         !this.inputName ? this.textRule.push('Введіть ім\'я') : null
@@ -94,11 +97,11 @@ export default {
       },
       immediate: true
     },
-    "userObject": {
+    userObject: {
+      deep: true,
       handler(newVal, oldVal) {
         console.log(newVal,oldVal)
       },
-      deep: true
     },
     showJewelery(newVal, oldVal) {
     this.getJewelery()
@@ -124,8 +127,8 @@ export default {
       <p>{{computed}}</p>
 
       <v-container>
-      <input type="text" :value="inputName" placeholder="Введіть ім'я" name="name" @input="inputObject($event)" >
-      <input type="number" :value="inputAge" placeholder="Введіть вік" name="age" min="1" @input="inputObject($event)"></v-container>
+      <input type="text" :value="inputName" placeholder="Введіть ім'я" @input="inputObject('name',$event.target.value)" >
+      <input type="number" :value="inputAge" placeholder="Введіть вік" min="1" @input="inputObject('age',$event.target.value)"></v-container>
       <v-sheet v-if="textRule.length > 0" color="red">{{ textRule.join(' ') }}</v-sheet>
 
       <v-btn @click="changeObject">Змінити значення об'єкту</v-btn>
