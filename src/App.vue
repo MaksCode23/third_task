@@ -8,9 +8,6 @@ export default {
   components: {Products},
   data(){
     return{
-      isDarkTheme: false,
-      currentTheme: "dark",
-      selectedComponent: 1,
       userObject:{
         name: 'John',
         age: 20,
