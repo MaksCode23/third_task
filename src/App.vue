@@ -53,9 +53,9 @@ export default {
             console.log(error)
           })
     },
-    inputObject(field,value){
+    inputObject(event){
       this.textRule = [];
-      field === 'name' ? this.inputName = value : this.inputAge = value
+      event.target.name === 'name' ? this.inputName = event.target.value : this.inputAge = event.target.value
     },
     changeObject(){
       this.textRule = [];
@@ -124,8 +124,8 @@ export default {
       <p>{{computed}}</p>
 
       <v-container>
-      <input type="text" :value="inputName" placeholder="Введіть ім'я" @input="inputObject('name',$event.target.value)" >
-      <input type="number" :value="inputAge" placeholder="Введіть вік" min="1" @input="inputObject('age',$event.target.value)"></v-container>
+      <input type="text" :value="inputName" placeholder="Введіть ім'я" name="name" @input="inputObject($event)" >
+      <input type="number" :value="inputAge" placeholder="Введіть вік" name="age" min="1" @input="inputObject($event)"></v-container>
       <v-sheet v-if="textRule.length > 0" color="red">{{ textRule.join(' ') }}</v-sheet>
 
       <v-btn @click="changeObject">Змінити значення об'єкту</v-btn>
