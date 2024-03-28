@@ -1,6 +1,4 @@
 <script>
-import axiosInstance from "../../services/axios.js";
-import product from "@/components/Product.vue";
 import Product from "@/components/Product.vue";
 export default {
   name: "Products",
@@ -14,18 +12,24 @@ export default {
   },
   data(){
     return{
+      filterType: null
     }
   },
   methods:{
+    changeState(){
+      this.filterType = this.checkbox ? 'computed' : 'method';
+    },
     filterMethod(){
       console.log("Фільтр через метод")
-      return this.products.filter(product => product.price < this.priceLimit)
-  },
+     return this.products.filter(product => product.price < this.priceLimit)
+    },
   },
 computed:{
-    toggleFilter(){
-      return this.checkbox ? this.sortFilter : this.filterMethod()
-    },
+  toggleFilter() {
+    if (this.filterType){
+      return this.filterType === 'method' ? this.filterMethod() : this.sortFilter;
+    }
+  },
   sortFilter(){
       return this.filterComputed.sort((a, b) => b.price - a.price);
   },
@@ -40,6 +44,7 @@ computed:{
 
 <template>
   <v-container>
+    <v-btn @click="changeState">Фільтрувати продукти</v-btn>
     <v-row>
       <v-col v-for="product in toggleFilter" :key="product.id" >
         <Product :product="product" />
